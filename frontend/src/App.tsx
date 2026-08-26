@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import PdfCanvas from "./PdfCanvas";
 import type { PageState, Tool } from "./types";
 
-const API = "http://localhost:8000";
+const API = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 export default function App() {
   const [file, setFile] = useState<File | null>(null);
@@ -22,13 +22,22 @@ export default function App() {
   async function saveProject() {
     const name = window.prompt("Project name", file?.name ?? "project");
     if (!name) return;
-    const res = await fetch(`${API}/projects`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, source_file: file?.name ?? null, markups: pageState })
-    });
-    if (!res.ok) alert("Save failed");
-    else alert("Project saved");
+
+    try {
+      const res = await fetch(`${API}/projects`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, source_file: file?.name ?? null, markups: pageState })
+      });
+      if (!res.ok) throw new Error("API save failed");
+      alert("Project saved to server");
+    } catch {
+      localStorage.setItem(
+        `engineering-pdf-project:${name}`,
+        JSON.stringify({ name, source_file: file?.name ?? null, markups: pageState })
+      );
+      alert("Server unavailable. Project saved in this browser instead.");
+    }
   }
 
   function exportJson() {
