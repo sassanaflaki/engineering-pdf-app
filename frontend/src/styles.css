@@ -1,0 +1,15 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Inter, system-ui, Arial, sans-serif; background: #2f3338; color: #eee; }
+button, input, select { font: inherit; }
+header, .toolbar { display: flex; gap: 8px; align-items: center; padding: 10px; background: #1f2327; border-bottom: 1px solid #444; }
+header strong { margin-right: 20px; }
+button { background: #3a4047; color: #fff; border: 1px solid #555; border-radius: 4px; padding: 6px 10px; cursor: pointer; }
+button:hover, button.active { background: #59636e; }
+main { display: grid; grid-template-columns: 150px 1fr; height: calc(100vh - 102px); }
+aside { padding: 10px; overflow: auto; background: #252a2f; }
+aside button { width: 100%; margin-bottom: 6px; }
+.workspace { overflow: auto; padding: 30px; }
+.page-shell { position: relative; margin: 0 auto; background: white; box-shadow: 0 5px 20px rgba(0,0,0,.5); }
+.pdf-layer, .markup-layer { position: absolute; left: 0; top: 0; }
+.empty { padding: 40px; text-align: center; color: #bbb; }
+.toolbar input { width: 90px; }
